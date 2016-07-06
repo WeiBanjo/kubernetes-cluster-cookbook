@@ -20,10 +20,10 @@ template '/etc/haproxy/haproxy.cfg' do
   mode '0644'
   source 'proxy.erb'
   variables(
-    kubernetes_api_port: node['kubernetes']['insecure']['apiport'],
-    api_servers: node['kubernetes']['master']['fqdn'],
-    etcd_client_port: node['kubernetes']['etcd']['clientport'],
-    kubernetes_secure_api_port: node['kubernetes']['secure']['apiport']
+    kubernetes_api_port: node['kubernetes_cluster']['insecure']['apiport'],
+    api_servers: node['kubernetes_cluster']['master']['fqdn'],
+    etcd_client_port: node['kubernetes_cluster']['etcd']['clientport'],
+    kubernetes_secure_api_port: node['kubernetes_cluster']['secure']['apiport']
   )
   notifies :restart, 'service[haproxy]', :immediately
 end

@@ -5,9 +5,9 @@
 # Copyright 2015-2016, Bloomberg Finance L.P.
 #
 
-if node['kubernetes']['secure']['enabled'] == 'true'
-  etcdcmd = "etcdctl --peers=https://127.0.0.1:2379 --cert-file=#{node['kubernetes']['secure']['directory']}/client.srv.crt --key-file=#{node['kubernetes']['secure']['directory']}/client.srv.key --ca-file=#{node['kubernetes']['secure']['directory']}/client.ca.crt"
-elsif node['kubernetes']['secure']['enabled'] == 'false'
+if node['kubernetes_cluster']['secure']['enabled']
+  etcdcmd = "etcdctl --peers=https://127.0.0.1:2379 --cert-file=#{node['kubernetes_cluster']['secure']['directory']}/client.srv.crt --key-file=#{node['kubernetes_cluster']['secure']['directory']}/client.srv.key --ca-file=#{node['kubernetes_cluster']['secure']['directory']}/client.ca.crt"
+else
   etcdcmd = 'etcdctl'
 end
 
@@ -26,8 +26,8 @@ template '/etc/sysconfig/flannel-network' do
   mode '0640'
   source 'flannel-network.erb'
   variables(
-    flannel_network: node['kubernetes']['master']['flannel-network'],
-    flannel_netlength: node['kubernetes']['master']['flannel-netlength']
+    flannel_network: node['kubernetes_cluster']['master']['flannel-network'],
+    flannel_netlength: node['kubernetes_cluster']['master']['flannel-netlength']
   )
-  notifies :run, 'execute[setnetwork]', :immediately
+  notifies :run, 'execute[setnetwork]', :delayed
 end

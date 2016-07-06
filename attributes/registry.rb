@@ -5,7 +5,7 @@
 # Copyright 2015-2016, Bloomberg Finance L.P.
 #
 
-default['kubernetes']['registry'].tap do |registry|
+default['kubernetes_cluster']['registry'].tap do |registry|
   # Set port for registry
   registry['port'] = '5000'
 

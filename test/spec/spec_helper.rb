@@ -21,6 +21,14 @@ module KubernetesCookbook
       end
       allow_any_instance_of(Chef::RunContext).to receive(:loaded_recipe).and_return(@included_recipes)
     end
+
+    def load_spec_encrypted_data_bag(bag_name, bag_item)
+      item_file = "test/spec/fixtures/data_bags/#{bag_name}/#{bag_item}.json"
+      raw_hash = Chef::JSONCompat.from_json IO.read(item_file)
+      allow(Chef::EncryptedDataBagItem).to receive(:load)
+                                             .with(bag_name, bag_item)
+                                             .and_return(raw_hash)
+    end
   end
 end
 

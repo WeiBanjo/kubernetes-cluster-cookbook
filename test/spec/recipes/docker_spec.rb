@@ -38,9 +38,9 @@ describe_recipe 'kubernetes-cluster::docker' do
   context 'with node[\'docker\'][\'secure\'][\'registry\'] = true' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new do |node|
-        node.normal['docker']['secure']['email'] = 'email@example.com'
-        node.normal['docker']['secure']['registry'] = 'registry.example.com:5000'
-        node.normal['docker']['secure']['secret'] = 'changeme'
+        node.normal['kubernetes_cluster']['docker']['secure']['email'] = 'email@example.com'
+        node.normal['kubernetes_cluster']['docker']['secure']['registry'] = 'registry.example.com:5000'
+        node.normal['kubernetes_cluster']['docker']['secure']['secret'] = 'changeme'
       end.converge(described_recipe)
     end
 

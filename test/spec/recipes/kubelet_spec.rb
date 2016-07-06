@@ -11,24 +11,23 @@ describe_recipe 'kubernetes-cluster::kubelet' do
         mode: '0640',
         source: 'kube-kubelet.erb',
         variables: {
-          etcd_cert_dir: '/etc/kubernetes/secrets',
-          kubelet_port: '10250',
+          kubelet_args: '--config=/etc/kubernetes/manifests --register-node=true --register-schedulable=false',
+          kubernetes_api_host: '127.0.0.1',
           kubernetes_api_port: '8080',
+          kubernetes_secure_api_host: '127.0.0.1',
           kubernetes_secure_api_port: '8443',
-          kubelet_hostname: 'fauxhai.local',
-          pause_container: nil,
-          register_node: "false"
+          kubelet_hostname: 'fauxhai.local'
         }
       )
       resource = chef_run.template('/etc/kubernetes/kubelet')
-      expect(resource).to notify('service[kubelet]').to(:restart).immediately
+      expect(resource).to notify('service[kubelet]').to(:restart).delayed
     end
   end
 
   context 'with node[\'kubernetes\'][\'secure\'][\'enabled\'] = true' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new do |node|
-        node.normal['kubernetes']['secure']['enabled'] = 'true'
+        node.normal['kubernetes_cluster']['secure']['enabled'] = true
       end.converge(described_recipe)
     end
 
@@ -39,7 +38,9 @@ describe_recipe 'kubernetes-cluster::kubelet' do
         source: 'kube-kubelet-kube-config.erb',
         variables: {
           etcd_cert_dir: '/etc/kubernetes/secrets',
-          kubernetes_secure_api_port: '8443'
+          kubernetes_admin_token: nil,
+          kubernetes_api_host: '127.0.0.1',
+          kubernetes_api_port: '8443'
         }
       )
     end

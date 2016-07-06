@@ -17,7 +17,7 @@ describe_recipe 'kubernetes-cluster::default' do
   context 'with node[\'kubernetes\'][\'secure\'][\'enabled\'] = true' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new do |node|
-        node.normal['kubernetes']['secure']['enabled'] = 'true'
+        node.normal['kubernetes_cluster']['secure']['enabled'] = true
       end.converge(described_recipe)
     end
 

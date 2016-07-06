@@ -24,7 +24,7 @@ defaults
         timeout connect 10s
         timeout server 1m
         timeout check 10s
-<% if node['kubernetes']['secure']['enabled'] == 'true' -%>
+<% if node['kubernetes_cluster']['secure']['enabled'] -%>
 
 frontend api_frontend
         bind 127.0.0.1:<%= @kubernetes_secure_api_port %>
@@ -55,7 +55,7 @@ backend etcd_backend
 <% end %>
 <% end -%>
 
-<% if node['kubernetes']['secure']['enabled'] == 'false' -%>
+<% if node['kubernetes_cluster']['secure']['enabled'] == 'false' -%>
 
 frontend api_frontend
         bind 127.0.0.1:<%= @kubernetes_api_port %>

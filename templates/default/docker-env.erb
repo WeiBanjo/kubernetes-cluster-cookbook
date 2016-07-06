@@ -1,7 +1,7 @@
 [Service]
-<% unless node['docker']['environment']['proxy'].nil? -%>
+<% unless node['kubernetes_cluster']['docker']['environment']['proxy'].nil? -%>
 Environment="HTTP_PROXY=<%= @docker_proxy %>"
 <% end -%>
-<% unless node['docker']['environment']['no-proxy'].nil? -%>
+<% unless node['kubernetes_cluster']['docker']['environment']['no-proxy'].nil? -%>
 Environment="NO_PROXY=<%= @docker_noproxy %>"
 <% end -%>

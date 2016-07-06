@@ -1,0 +1,13 @@
+{
+  "peer": {
+    "ca": "-----BEGIN CERTIFICATE-----\nPEER_CA\n-----END CERTIFICATE-----",
+    "cert": "-----BEGIN CERTIFICATE-----\nPEER_CERT\n-----END CERTIFICATE-----",
+    "key": "-----BEGIN RSA PRIVATE KEY-----\nPEER_KEY\n-----END RSA PRIVATE KEY-----"
+  },
+  "client": {
+    "ca": "-----BEGIN CERTIFICATE-----\nCLIENT_CA\n-----END CERTIFICATE-----",
+    "cert": "-----BEGIN CERTIFICATE-----\nCLIENT_CERT\n-----END CERTIFICATE-----",
+    "key": "-----BEGIN RSA PRIVATE KEY-----\nCLIENT_KEY\n-----END RSA PRIVATE KEY-----"
+  },
+  "id": "kubernetes"
+}

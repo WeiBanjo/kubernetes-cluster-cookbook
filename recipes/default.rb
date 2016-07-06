@@ -18,8 +18,8 @@ end
 
 group 'kube-services'
 
-directory node['kubernetes']['secure']['directory'] do
-  only_if { node['kubernetes']['secure']['enabled'] == 'true' }
+directory node['kubernetes_cluster']['secure']['directory'] do
+  only_if { node['kubernetes_cluster']['secure']['enabled'] }
   owner 'root'
   group 'kube-services'
   mode '0770'

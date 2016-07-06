@@ -7,10 +7,9 @@ spec:
   - command:
     - /bin/sh
     - -c
-<% if node['kubernetes']['secure']['enabled'] == 'true' -%>
+<% if node['kubernetes_cluster']['secure']['enabled'] -%>
     - /usr/local/bin/kube-controller-manager --kubeconfig=<%= @etcd_cert_dir %>/kube.config --v=2 1>>/var/log/kube-controller-manager.log 2>&1
-<% end -%>
-<% if node['kubernetes']['secure']['enabled'] == 'false' -%>
+<% else -%>
     - /usr/local/bin/kube-controller-manager --master=127.0.0.1:<%= @kubernetes_api_port %> --v=2 1>>/var/log/kube-controller-manager.log 2>&1
 <% end -%>
     image: <%= @controller_manager_image %>
@@ -22,7 +21,7 @@ spec:
       timeoutSeconds: 1
     name: kube-controller-manager
     volumeMounts:
-<% if node['kubernetes']['secure']['enabled'] == 'true' -%>
+<% if node['kubernetes_cluster']['secure']['enabled'] -%>
     - mountPath: <%= @etcd_cert_dir %>
       name: secrets
       readOnly: true
@@ -31,7 +30,7 @@ spec:
       name: logfile
   hostNetwork: true
   volumes:
-<% if node['kubernetes']['secure']['enabled'] == 'true' -%>
+<% if node['kubernetes_cluster']['secure']['enabled'] -%>
   - hostPath:
       path: <%= @etcd_cert_dir %>
     name: secrets

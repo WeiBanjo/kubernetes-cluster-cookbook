@@ -3,12 +3,16 @@ kind: Config
 users:
 - name: kubelet
   user:
+    <% if @kubernetes_admin_token %>
+    token: <%= @kubernetes_admin_token %>
+    <% else %>
     client-certificate: <%= @etcd_cert_dir %>/client.srv.crt
     client-key: <%= @etcd_cert_dir %>/client.srv.key
+    <% end %>
 clusters:
 - name: kube
   cluster:
-    server: https://127.0.0.1:<%= @kubernetes_secure_api_port %>
+    server: https://<%= @kubernetes_api_host %>:<%= @kubernetes_api_port %>
     certificate-authority: <%= @etcd_cert_dir %>/client.ca.crt
 contexts:
 - context:

@@ -3,6 +3,7 @@ require 'spec_helper'
 describe_recipe 'kubernetes-cluster::master' do
   before do
     global_stubs_include_recipe
+    load_spec_encrypted_data_bag('kubernetes', 'kubernetes')
   end
 
   context 'with default node attributes' do
@@ -101,7 +102,7 @@ describe_recipe 'kubernetes-cluster::master' do
   context 'with node[\'kubernetes\'][\'secure\'][\'enabled\'] = true' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new do |node|
-        node.normal['kubernetes']['secure']['enabled'] = 'true'
+        node.normal['kubernetes_cluster']['secure']['enabled'] = true
       end.converge(described_recipe)
     end
 
