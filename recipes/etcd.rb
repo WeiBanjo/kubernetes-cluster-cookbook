@@ -19,6 +19,13 @@ directory node['kubernetes_cluster']['etcd']['basedir'] do
   recursive true
 end
 
+directory '/etc/etcd' do
+  owner 'etcd'
+  group 'etcd'
+  mode '0755'
+  recursive true
+end
+
 template '/usr/lib/systemd/system/etcd.service' do
   mode '0644'
   owner 'root'
