@@ -1,11 +1,9 @@
 FROM centos/ruby-22-centos7
 MAINTAINER wei <weiwu1120@gmail.com>
 
-ARG K8S_VERSION=v1.3.4
-ENV K8S_VERSION ${K8S_VERSION}
-
+ARG K8S_VERSION=v1.3.6
 ARG K8S_ITERATION=1
-ENV K8S_ITERATION ${K8S_ITERATION}
+
 ENV LANG en_US.UTF-8
 
 USER root
@@ -29,12 +27,15 @@ RUN rm -rf kubernetes
 RUN cp kubernetes-$K8S_VERSION-server/kubernetes/server/bin/* /usr/bin/
 
 RUN tar zcvf kubernetes-master-$K8S_VERSION.tar.gz -P \
-    /usr/bin/kube-apiserver
+    /usr/bin/kube-apiserver \
+    /usr/bin/kube-controller-manager \
+    /usr/bin/kube-scheduler
 
 RUN fpm -s tar -t rpm -n kubernetes-master -v $K8S_VERSION --iteration $K8S_ITERATION -a noarch --verbose kubernetes-master-$K8S_VERSION.tar.gz
 
 RUN tar zcvf kubernetes-node-$K8S_VERSION.tar.gz -P \
     /usr/bin/kubectl \
-    /usr/bin/kubelet
+    /usr/bin/kubelet \
+    /usr/bin/hyperkube
 
 RUN fpm -s tar -t rpm -n kubernetes-node -v $K8S_VERSION --iteration $K8S_ITERATION -a noarch --verbose kubernetes-node-$K8S_VERSION.tar.gz

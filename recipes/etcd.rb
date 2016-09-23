@@ -13,14 +13,16 @@ unless Chef::Config[:solo]
   node.override['kubernetes_cluster']['etcd']['members'] = etcdservers
 end
 
-service 'etcd' do
-  action :enable
-end
-
 directory node['kubernetes_cluster']['etcd']['basedir'] do
   owner 'etcd'
   group 'etcd'
   recursive true
+end
+
+template '/usr/lib/systemd/system/etcd.service' do
+  mode '0644'
+  owner 'root'
+  group 'root'
 end
 
 template '/etc/etcd/etcd.conf' do
@@ -40,4 +42,8 @@ template '/etc/etcd/etcd.conf' do
     etcd_election_timeout: node['kubernetes_cluster']['etcd']['election_timeout']
   )
   notifies :restart, 'service[etcd]', :immediately
+end
+
+service 'etcd' do
+  action :enable
 end
