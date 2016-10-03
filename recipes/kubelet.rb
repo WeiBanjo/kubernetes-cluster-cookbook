@@ -70,7 +70,7 @@ end
 if node['kubernetes_cluster']['kubelet']['system-reserved']['memory'] > 0 && node['kubernetes_cluster']['kubelet']['system-reserved']['cpu'] > 0
   reserved_cpu_units = node['cpu']['total'].to_i * 1000 * node['kubernetes_cluster']['kubelet']['system-reserved']['cpu']
   reserved_memory_units = node['memory']['total'].to_i * node['kubernetes_cluster']['kubelet']['system-reserved']['memory'] / 1024
-  kubelet_args << "--system-reserved=cpu=#{reserved_cpu_units.to_i},memory=#{reserved_memory_units}M"
+  kubelet_args << "--system-reserved=cpu=#{reserved_cpu_units.to_i}m,memory=#{reserved_memory_units.to_i}M"
 end
 
 kubelet_args << "--pod-infra-container-image=#{node['kubernetes_cluster']['kubelet']['pause-source']}" if node['kubernetes_cluster']['kubelet']['pause-source']
