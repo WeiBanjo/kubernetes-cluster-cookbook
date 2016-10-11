@@ -9,6 +9,7 @@ case node['platform']
 when 'redhat', 'centos', 'fedora'
   yum_package "flannel #{node['kubernetes_cluster']['package']['flannel']['version']}"
   yum_package "#{node['kubernetes_cluster']['package']['docker']['name']} #{node['kubernetes_cluster']['package']['docker']['version']}"
+  yum_package "#{node['kubernetes_cluster']['package']['docker-engine-selinux']['name']} #{node['kubernetes_cluster']['package']['docker-engine-selinux']['version']}"
   yum_package "kubernetes-node #{node['kubernetes_cluster']['package']['kubernetes_node']['version']}"
   yum_package "bridge-utils #{node['kubernetes_cluster']['package']['bridge_utils']['version']}"
   service 'firewalld' do
