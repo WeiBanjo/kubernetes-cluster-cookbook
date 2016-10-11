@@ -7,6 +7,7 @@ Requires=docker.socket
 [Service]
 Type=notify
 EnvironmentFile=-/run/flannel/docker
+EnvironmentFile=-/etc/sysconfig/docker
 ExecStart=/usr/bin/docker daemon -H fd:// $DOCKER_OPTS $DOCKER_CGROUPS $DOCKER_OPT_BIP $DOCKER_OPT_MTU $DOCKER_OPT_IPMASQ
 ExecReload=/bin/kill -s HUP $MAINPID
 MountFlags=slave
