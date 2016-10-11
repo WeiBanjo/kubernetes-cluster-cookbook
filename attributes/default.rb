@@ -73,7 +73,7 @@ default['kubernetes_cluster']['docker']['environment'].tap do |environment|
 
   # Set docker base directory for local storage- make sure this has plenty of space, optimally its own volume
   # This directory will be created if it does not exist
-  environment['docker-basedir'] = nil
+  environment['docker-options'] = []
 
   # Set docker daemon proxy settings
   environment['proxy'] = nil

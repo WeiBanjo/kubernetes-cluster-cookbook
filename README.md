@@ -106,7 +106,7 @@ Example solo.json for master
     "environment": {
       "docker-registry": "registry.example.com:5000",
       "registry-insecure": "registry.example.com:5000",
-      "docker-basedir": "/kube/docker"
+      "docker-options": ["-g /kube/docker"]
     }
   },
   "run_list": ["recipe[kubernetes-cluster::master]"]
@@ -144,7 +144,7 @@ Example solo.json for minion
       "environment": {
         "docker-registry": "registry.example.com:5000",
         "registry-insecure": "registry.example.com:5000",
-        "docker-basedir": "/kube/docker"
+        "docker-options": ["-g /kube/docker"]
       }
     },
     "kubelet": {
