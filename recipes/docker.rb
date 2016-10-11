@@ -60,7 +60,7 @@ template '/etc/sysconfig/docker' do
   mode '0640'
   source 'docker.erb'
   variables(
-    docker_basedir: node['kubernetes_cluster']['docker']['environment']['docker-basedir'],
+    docker_options: node['kubernetes_cluster']['docker']['environment']['docker-options'],
     docker_registry: node['kubernetes_cluster']['docker']['environment']['docker-registry'],
     docker_insecureregistry: node['kubernetes_cluster']['docker']['environment']['registry-insecure']
   )
