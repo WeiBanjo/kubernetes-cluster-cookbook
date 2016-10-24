@@ -56,7 +56,7 @@ template "#{node['kubernetes_cluster']['secure']['directory']}/kube.config" do
 end
 
 kubelet_args = [
-  '--config=/etc/kubernetes/manifests',
+  '--pod-manifest-path=/etc/kubernetes/manifests',
   "--register-node=#{node['kubernetes_cluster']['kubelet']['register']['node']}",
   "--register-schedulable=#{node['kubernetes_cluster']['kubelet']['register']['schedulable']}",
 ]
@@ -99,10 +99,6 @@ template '/etc/kubernetes/kubelet' do
   source 'kube-kubelet.erb'
   variables(
     kubelet_hostname: node['kubernetes_cluster']['kubelet']['hostname'],
-    kubernetes_api_port: node['kubernetes_cluster']['insecure']['apiport'],
-    kubernetes_api_host: node['kubernetes_cluster']['insecure']['apihost'],
-    kubernetes_secure_api_port: node['kubernetes_cluster']['secure']['apiport'],
-    kubernetes_secure_api_host: node['kubernetes_cluster']['secure']['apihost'],
     kubelet_args: kubelet_args.join(' ')
   )
   notifies :restart, 'service[kubelet]', :delayed

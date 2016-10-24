@@ -12,10 +12,6 @@ describe_recipe 'kubernetes-cluster::kubelet' do
         source: 'kube-kubelet.erb',
         variables: {
           kubelet_args: '--config=/etc/kubernetes/manifests --register-node=true --register-schedulable=false',
-          kubernetes_api_host: '127.0.0.1',
-          kubernetes_api_port: '8080',
-          kubernetes_secure_api_host: '127.0.0.1',
-          kubernetes_secure_api_port: '8443',
           kubelet_hostname: 'fauxhai.local'
         }
       )
