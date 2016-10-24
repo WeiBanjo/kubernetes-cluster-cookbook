@@ -1,4 +1,11 @@
 # File created by Chef! Any local changes will be overwritten next Chef run!
 
 KUBELET_HOSTNAME="--hostname-override=<%= @kubelet_hostname %>"
+
+<% if node['kubernetes_cluster']['secure']['enabled'] -%>
+KUBELET_API_SERVER="--api-servers=https://<%= @kubernetes_secure_api_host %>:<%= @kubernetes_secure_api_port %>"
+<% else -%>
+KUBELET_API_SERVER="--api-servers=http://<%= @kubernetes_api_host %>:<%= @kubernetes_api_port %>"
+<% end -%>
+
 KUBELET_ARGS="<%= @kubelet_args %>"
