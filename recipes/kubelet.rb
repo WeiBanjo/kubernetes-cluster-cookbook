@@ -73,6 +73,22 @@ if node['kubernetes_cluster']['kubelet']['system-reserved']['memory'] > 0 && nod
   kubelet_args << "--system-reserved=cpu=#{reserved_cpu_units.to_i}m,memory=#{reserved_memory_units.to_i}M"
 end
 
+if node['kubernetes_cluster']['kubelet']['eviction']
+  if node['kubernetes_cluster']['kubelet']['eviction']['hard']
+    kubelet_args << "--eviction-hard #{node['kubernetes_cluster']['kubelet']['eviction']['hard']}"
+  end
+  if node['kubernetes_cluster']['kubelet']['eviction']['soft']
+    kubelet_args << "--eviction-hard #{node['kubernetes_cluster']['kubelet']['eviction']['hard']}"
+  end
+  if node['kubernetes_cluster']['kubelet']['eviction']['minimum-reclaim']
+    kubelet_args << "--eviction-minimum-reclaim #{node['kubernetes_cluster']['kubelet']['eviction']['minimum-reclaim']}"
+  end
+end
+
+if node['kubernetes_cluster']['kubelet']['feature-gates']
+  kubelet_args << "--feature-gates #{node['kubernetes_cluster']['kubelet']['feature-gates'].join(',')}"
+end
+
 kubelet_args << "--pod-infra-container-image=#{node['kubernetes_cluster']['kubelet']['pause-source']}" if node['kubernetes_cluster']['kubelet']['pause-source']
 kubelet_args << "--cluster-dns=#{node['kubernetes_cluster']['cluster_dns']} --cluster-domain=#{node['kubernetes_cluster']['cluster_domain']}" if node['kubernetes_cluster']['cluster_dns']
 kubelet_args << "--node-labels=#{node['kubernetes_cluster']['minion']['labels'].join(' ')}" if node['kubernetes_cluster']['minion']['labels'] and not node['kubernetes_cluster']['minion']['labels'].empty?

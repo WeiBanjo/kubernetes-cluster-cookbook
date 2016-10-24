@@ -60,6 +60,8 @@ default['kubernetes_cluster']['kubelet'].tap do |kubelet|
   # Set resources reserved for non-kubernetes components. 0 will disable system-reserved flag
   kubelet['system-reserved']['memory'] = 0
   kubelet['system-reserved']['cpu'] = 0
+  kubelet['eviction'] = nil
+  kubelet['feature-gates'] = nil
 
   kubelet['extra_args'] = []
   # Set hostname for kubelet
