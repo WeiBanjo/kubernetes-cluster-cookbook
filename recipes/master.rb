@@ -50,21 +50,21 @@ if node['kubernetes_cluster']['secure']['enabled']
   file 'kubernetes::master[client.ca.crt]' do
     path "#{node['kubernetes_cluster']['secure']['directory']}/client.ca.crt"
     content client_ca
-    owner 'root'
+    owner 'kube'
     group 'kube-services'
     mode '0770'
     sensitive true
   end
   file "#{node['kubernetes_cluster']['secure']['directory']}/client.srv.crt" do
     content client_cert
-    owner 'root'
+    owner 'kube'
     group 'kube-services'
     mode '0770'
     sensitive true
   end
   file "#{node['kubernetes_cluster']['secure']['directory']}/client.srv.key" do
     content client_key
-    owner 'root'
+    owner 'kube'
     group 'kube-services'
     mode '0770'
     sensitive true
@@ -72,7 +72,7 @@ if node['kubernetes_cluster']['secure']['enabled']
 
   file "#{node['kubernetes_cluster']['secure']['directory']}/client.srv.bundle.crt" do
     content "#{client_cert}\n#{client_ca}"
-    owner 'root'
+    owner 'kube'
     group 'kube-services'
     mode '0770'
     sensitive true
@@ -80,21 +80,21 @@ if node['kubernetes_cluster']['secure']['enabled']
 
   file "#{node['kubernetes_cluster']['secure']['directory']}/peer.ca.crt" do
     content peer_ca
-    owner 'root'
+    owner 'kube'
     group 'kube-services'
     mode '0770'
     sensitive true
   end
   file "#{node['kubernetes_cluster']['secure']['directory']}/peer.srv.crt" do
     content peer_cert
-    owner 'root'
+    owner 'kube'
     group 'kube-services'
     mode '0770'
     sensitive true
   end
   file "#{node['kubernetes_cluster']['secure']['directory']}/peer.srv.key" do
     content peer_key
-    owner 'root'
+    owner 'kube'
     group 'kube-services'
     mode '0770'
     sensitive true
