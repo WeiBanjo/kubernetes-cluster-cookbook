@@ -66,6 +66,7 @@ default['kubernetes_cluster']['kubelet'].tap do |kubelet|
   kubelet['extra_args'] = []
   # Set hostname for kubelet
   kubelet['hostname'] = node['fqdn']
+  kubelet['attributes']['include_api_server'] = true
 end
 
 default['kubernetes_cluster']['docker']['environment'].tap do |environment|
