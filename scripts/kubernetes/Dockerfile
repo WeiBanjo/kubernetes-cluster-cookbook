@@ -1,15 +1,8 @@
-FROM centos/ruby-22-centos7
+FROM weiwu1120/rpm-builder:v0.1
 MAINTAINER wei <weiwu1120@gmail.com>
 
-ARG K8S_VERSION=v1.5.1
+ARG K8S_VERSION=v1.8.2
 ARG K8S_ITERATION=1
-
-ENV LANG en_US.UTF-8
-
-USER root
-RUN yum update -y
-RUN yum install -y gcc make wget rpm-build ruby-devel
-RUN gem install fpm
 
 RUN wget https://dl.k8s.io/$K8S_VERSION/kubernetes-server-linux-amd64.tar.gz && \
     wget https://dl.k8s.io/$K8S_VERSION/kubernetes-client-linux-amd64.tar.gz && \
