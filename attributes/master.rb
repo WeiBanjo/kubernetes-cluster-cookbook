@@ -43,7 +43,6 @@ default['kubernetes_cluster']['etcd'].tap do |etcd|
   etcd['peerport'] = '2380'
 
   # etcd client name for etcd membership
-  etcd['clientname'] = node['fqdn']
   etcd['bind_address'] = '127.0.0.1'
 
   # etcd directory for data storage
