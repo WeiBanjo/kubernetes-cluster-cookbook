@@ -3,13 +3,15 @@ require 'spec_helper'
 describe_recipe 'kubernetes-cluster::minion' do
   before do
     global_stubs_include_recipe
+    load_spec_encrypted_data_bag('kubernetes', 'kubernetes')
   end
 
   context 'with default node attributes' do
     let(:chef_run) { ChefSpec::SoloRunner.new.converge(described_recipe) }
 
     it { expect(chef_run.node.tags).to eq(['kubernetes.minion']) }
-    it { expect(chef_run.node['kubelet']['register']).to eq('true') }
+    it { expect(chef_run.node['kubernetes_cluster']['kubelet']['register']['node']).to eq(true) }
+    it { expect(chef_run.node['kubernetes_cluster']['kubelet']['register']['schedulable']).to eq(true) }
 
     it 'should include recipe kubernetes-cluster::default' do
       allow_any_instance_of(Chef::Recipe).to receive(:include_recipe).with('kubernetes-cluster::default')
@@ -56,7 +58,7 @@ describe_recipe 'kubernetes-cluster::minion' do
   context 'with node[\'kubernetes\'][\'secure\'][\'enabled\'] = true' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new do |node|
-        node.normal['kubernetes']['secure']['enabled'] = 'true'
+        node.normal['kubernetes_cluster']['secure']['enabled'] = true
       end.converge(described_recipe)
     end
 

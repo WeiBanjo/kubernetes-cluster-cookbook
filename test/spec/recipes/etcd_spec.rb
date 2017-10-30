@@ -25,7 +25,11 @@ describe_recipe 'kubernetes-cluster::etcd' do
           etcd_client_port: '2379',
           etcd_peer_port: '2380',
           etcd_members: nil,
-          etcd_cert_dir: '/etc/kubernetes/secrets'
+          etcd_cert_dir: '/etc/kubernetes/secrets',
+          etcd_bind_address: '127.0.0.1',
+          etcd_cluster_state: 'new',
+          etcd_election_timeout: 1000,
+          etcd_heartbeat_interval: 100
         }
       )
       resource = chef_run.template('/etc/etcd/etcd.conf')

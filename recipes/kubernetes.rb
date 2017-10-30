@@ -9,10 +9,13 @@ template '/etc/kubernetes/config' do
   mode '0640'
   source 'kube-config.erb'
   variables(
-    kubernetes_log_level: node['kubernetes']['log']['level'],
+    kubernetes_log_level: node['kubernetes_cluster']['log']['level'],
     kubernetes_master: node['fqdn'],
-    kubernetes_api_port: node['kubernetes']['insecure']['apiport'],
-    kubernetes_secure_api_port: node['kubernetes']['secure']['apiport'],
-    etcd_cert_dir: node['kubernetes']['secure']['directory']
+    kubernetes_api_host: node['kubernetes_cluster']['insecure']['apihost'],
+    kubernetes_api_port: node['kubernetes_cluster']['insecure']['apiport'],
+    kubernetes_secure_api_host: node['kubernetes_cluster']['secure']['apihost'],
+    kubernetes_secure_api_port: node['kubernetes_cluster']['secure']['apiport'],
+    etcd_cert_dir: node['kubernetes_cluster']['secure']['directory'],
+    allow_privileged: node['kubernetes_cluster']['allow_privileged']
   )
 end

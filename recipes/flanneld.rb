@@ -20,15 +20,24 @@ end
 execute 'redo-docker-bridge' do
   command 'ifconfig docker0 down; brctl delbr docker0'
   action :nothing
-  notifies :restart, 'service[docker]', :immediately
+  notifies :restart, 'service[docker]', :delayed
 end
+
+scheme = if node['kubernetes_cluster']['secure']['enabled']
+           'https'
+         else
+           'http'
+         end
+
+port = node['kubernetes_cluster']['etcd']['clientport']
+etcd_endpoints = node['kubernetes_cluster']['etcd']['clienthosts'].collect { |host| "#{scheme}://#{host}:#{port}" }.sort
 
 template '/etc/sysconfig/flanneld' do
   mode '0640'
   source 'flannel-flanneld.erb'
   variables(
-    etcd_client_port: node['kubernetes']['etcd']['clientport'],
-    etcd_cert_dir: node['kubernetes']['secure']['directory']
+    etcd_endpoints: etcd_endpoints.join(','),
+    etcd_cert_dir: node['kubernetes_cluster']['secure']['directory']
   )
   notifies :restart, 'service[flanneld]', :immediately
   notifies :run, 'execute[redo-docker-bridge]', :delayed

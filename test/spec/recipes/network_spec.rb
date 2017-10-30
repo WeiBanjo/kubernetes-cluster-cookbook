@@ -18,7 +18,7 @@ describe_recipe 'kubernetes-cluster::network' do
         }
       )
       resource = chef_run.template('/etc/sysconfig/flannel-network')
-      expect(resource).to notify('execute[setnetwork]').to(:run).immediately
+      expect(resource).to notify('execute[setnetwork]').to(:run).delayed
     end
   end
 end

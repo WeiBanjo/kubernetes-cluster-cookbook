@@ -1,6 +1,6 @@
 # File created by Chef! Any local changes will be overwritten next Chef run!
 
-OPTIONS='--selinux-enabled<% if @docker_basedir -%> -g <%= @docker_basedir %><% end -%>'
+DOCKER_OPTS='<%= @docker_options %>'
 DOCKER_CERT_PATH=/etc/docker
 <% if @docker_registry -%>ADD_REGISTRY='<% if @docker_registry.kind_of?(Array) -%><% @docker_registry.each do |name| -%> --add-registry <%= name %><% end -%><% else -%> --add-registry <%= @docker_registry %><% end -%>'<% end %>
 <% if @docker_insecureregistry -%>INSECURE_REGISTRY='<% if @docker_insecureregistry.kind_of?(Array) -%><% @docker_insecureregistry.each do |name| -%> --insecure-registry <%= name %><% end -%><% else -%> --insecure-registry <%= @docker_insecureregistry %><% end -%>'<% end %>
